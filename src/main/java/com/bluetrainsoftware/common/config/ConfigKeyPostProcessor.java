@@ -1,4 +1,4 @@
-package nz.ac.auckland.common.config;
+package com.bluetrainsoftware.common.config;
 
 import net.stickycode.configured.ConfigurationRepository;
 import net.stickycode.configured.ForMethodOnlyBeansDummyAttribute;
@@ -16,6 +16,8 @@ public class ConfigKeyPostProcessor extends InstantiationAwareBeanPostProcessorA
 
 	@Inject
 	private ConfigurationRepository configurationRepository;
+
+
 
 	@Override
 	public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {

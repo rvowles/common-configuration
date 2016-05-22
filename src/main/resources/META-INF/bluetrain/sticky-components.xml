@@ -14,11 +14,10 @@
     <context:include-filter type="annotation" expression="net.stickycode.stereotype.StickyComponent"/>
   </context:component-scan>
 
-  <bean class="nz.ac.auckland.common.config.MapCoercion"/>
+  <bean class="com.bluetrainsoftware.common.config.MapCoercion"/>
   <bean class="net.stickycode.configured.ConfiguredConfigurationListener"/>
   <bean class="net.stickycode.configured.ConfigurationSystem"/>
-  <bean class="nz.ac.auckland.common.config.SystemPropertiesConfigurationSource"/>
-  <bean class="nz.ac.auckland.common.config.JarManifestConfigurationSource"/>
-  <bean class="nz.ac.auckland.common.config.ConfigKeyPostProcessor"/>
-  <bean class="nz.ac.auckland.common.config.ConfigurationRefresher"/> <!-- automatically start the configuration -->
+  <bean class="com.bluetrainsoftware.common.config.SystemPropertiesConfigurationSource"/>
+  <bean class="com.bluetrainsoftware.common.config.ConfigKeyPostProcessor"/>
+  <bean class="com.bluetrainsoftware.common.config.ConfigurationRefresher"/> <!-- automatically start the configuration -->
 </beans>

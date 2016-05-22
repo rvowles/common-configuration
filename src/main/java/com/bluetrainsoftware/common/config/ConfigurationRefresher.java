@@ -1,4 +1,4 @@
-package nz.ac.auckland.common.config;
+package com.bluetrainsoftware.common.config;
 
 import javax.inject.Inject;
 

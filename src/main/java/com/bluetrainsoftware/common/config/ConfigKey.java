@@ -1,4 +1,4 @@
-package nz.ac.auckland.common.config;
+package com.bluetrainsoftware.common.config;
 
 /**
  * new Configured annotation that provides key override for configuration

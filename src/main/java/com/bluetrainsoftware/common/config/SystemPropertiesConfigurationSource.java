@@ -1,4 +1,4 @@
-package nz.ac.auckland.common.config;
+package com.bluetrainsoftware.common.config;
 
 
 import net.stickycode.configuration.ConfigurationSource;
@@ -8,11 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SystemPropertiesConfigurationSource implements ConfigurationSource {
-	private Logger log = LoggerFactory.getLogger("nz.ac.auckland.configuration");
+	private static final Logger log = LoggerFactory.getLogger(SystemPropertiesConfigurationSource.class);
 
-	@Override
+  public SystemPropertiesConfigurationSource() {
+    log.info("Sticky Configuration is ready to read from System Properties.");
+  }
+
+  @Override
 	public void apply(net.stickycode.configuration.ConfigurationKey configurationKey, ResolvedConfiguration resolvedConfiguration) {
-		String key = configurationKey.join(".");
+		final String key = configurationKey.join(".");
 
 		final String value = System.getProperty(key);
 
@@ -20,7 +24,9 @@ public class SystemPropertiesConfigurationSource implements ConfigurationSource 
 			resolvedConfiguration.add(new ConfigurationValue() {
 				@Override
 				public String get() {
-					return value;
+					String newValue = System.getProperty(key);
+
+          return newValue == null ? value : newValue;
 				}
 
 				@Override

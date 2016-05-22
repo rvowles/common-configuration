@@ -1,0 +1,96 @@
+= commons-configuration
+
+This provides a Spring scanned configuration file to support the @ConfigKey annotation from Sticky Code that injects System properties into your
+Spring objects. This project is designed to work in the Spring Boot infrastructure and operate with Kubernetes where config files and secrets can
+be reloaded without re-starting the Pod.
+
+=== External configuration and Spring Boot
+
+With Spring Boot, External configuration is passed on the command line using -P arguments. These files may be YAML files or Properties files.
+  They must also be in the file system.
+
+The default timeout for the watch timer is 15 seconds, if "sticky.timeout" is set to another value (in seconds) it will swap to that sleep
+mode. A thread is consumed sleeping and then checking the files for timestamp changes. If you are not using Spring Boot, you will not be affected
+by this. Also, if there are no files to watch, it will also not trigger. If you set the sticky.timeout to zero, it will never check for updates.
+
+== Annotations
+
+There are three - @ConfigKey, @PreConfigured and @PostConfigured. The latter two are inherited from StickyCode, the previous one comes
+with this project.
+
+* @EnableStickyConfiguration - this triggers the Spring configuration necessary to load the beans to make this infrastructure work
+* @ConfigKey - this is used to denote something to be injected into. If no value is specified as the value for the variable, failure to provide
+ one in configuration will cause the application to fail to start. All missing configuration will be delivered in one go.
+* @PreConfigured - this is a method that can be called before configuration starts
+* @PostConfigured - this is a method that is called once configuration has been injected.
+
+Notes:
+
+*  @PreConfigured and @PostConfigured can be annotated on a class that does not have any @ConfigKeys.
+This just allows beans to know that configuration is complete.
+*  If watching for configuration changes, @PreConfigured and @PostConfigured will be called multiple times.
+* The initial triggering is done on ContextRefresh from Spring, so if you trigger this yourself by some method, you will get configuration re-injected.
+
+e.g.
+
+    @Component
+    class MyClass {
+      @ConfigKey("person.name") String name
+      @ConfigKey("person.age") Integer age
+      @ConfigKey Boolean alive   // myclass.alive
+      @ConfigKey List<String> aliases // myclass.aliases
+      @ConfigKey Map<String, Integer> childrenAges  // myclass.childrenAges
+    }
+
+in system properties you would have
+
+    person.name=fred
+    person.age=35
+    myClass.alive=true
+    myClass.aliases=The Hammer, Sooty, Sweep
+    myClass.childrenAges=Barbara:7, William:2
+
+You can include in your class a @PostConfigured annotation to then do post processing on the configuration.
+
+    @Component
+    class AlsoMyClass {
+       @ConfigKey String parts = "gibberish"
+       @ConfigKey String password
+
+
+       @PostConfigured
+       public void configure() {
+         // do something here
+       }
+    }
+
+== Configuration Sources
+---------------------
+
+There is only one the System Properties - the system properties. If you use the WatchedFilesApplicationRunListener,
+
+=== Alternatives
+
+We can use the @Value annotation from Spring, but this has a number of "issues":
+
+  * @Value annotated fields in base classes will not pull their configuration settings when the bean is configured
+  * @Value requires you to specify where your properties are coming from, which generally is undesirable as the source of configuration is extensible.
+  * @Value's default mechanism is clumsy, requiring error prone stringization of defaults
+  * @Value does not allow reconfiguration without re-wiring. In a Kubernetes or Archaius world, this is essential.
+
+Web Usage
+---------
+The artifact includes a web fragment, if included in a Servlet 3.x container, it will automatically be added to the global web.xml
+
+Other Spring usage
+------------------
+Anyone using the Artifact outside of a web container will need to get the StickyBootstrap object and call "start" on it (see the StickyBootStrapServlet for an example).
+
+Notes
+-----
+
++ if you don't give a default value and the user doesnt provide a value, the initialization of your application will immediately fail (FAST FAIL)
+
+Applications using:  pretty much everything
+
+

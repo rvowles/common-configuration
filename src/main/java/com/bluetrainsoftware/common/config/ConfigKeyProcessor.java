@@ -1,4 +1,4 @@
-package nz.ac.auckland.common.config;
+package com.bluetrainsoftware.common.config;
 
 import net.stickycode.bootstrap.ComponentContainer;
 import net.stickycode.coercion.Coercion;
@@ -73,11 +73,12 @@ public class ConfigKeyProcessor extends AnnotatedFieldProcessor {
 
 			@Override
 			public boolean requiresResolution() {
+        return true;
 				// this change to a weird, inefficient request seems necessary otherwise
 				// it won't return the right value!
-				boolean value = (resolution == null);
+				//boolean value = (resolution == null);
 
-				return value;
+				//return value;
 			}
 
 			@Override
