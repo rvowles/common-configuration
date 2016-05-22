@@ -13,7 +13,7 @@
 
 	<name>stickycode-extended-config</name>
 
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 	<packaging>jar</packaging>
 
 	<description>
@@ -24,7 +24,7 @@
 		<url>https://github.com/rvowles/common-configuration</url>
 		<connection>scm:git:https://github.com/rvowles/common-configuration.git</connection>
 		<developerConnection>scm:git:git@github.com:rvowles/common-configuration.git</developerConnection>
-	  <tag>HEAD</tag>
+	  <tag>stickycode-extended-config-1.1</tag>
   </scm>
 
 	<properties>
