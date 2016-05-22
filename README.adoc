@@ -72,7 +72,13 @@ You can include in your class a @PostConfigured annotation to then do post proce
 ----
 == Configuration Sources
 
-There is only one the System Properties - the system properties. If you use the WatchedFilesApplicationRunListener,
+This project only supports one, system properties - but it loads external configuration into the system properties.
+ StickyCode itself supports anything as a configuration source, a central tenant being that your configured code should
+ not need to know where its configuration is coming from.
+
+There is nothing in ConfigKey's extension that requires System Properties, but the `WatchedFilesApplicationRunListener` for
+ Spring Boot only supports this.
+
 
 === Alternatives
 
