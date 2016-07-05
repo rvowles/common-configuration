@@ -83,7 +83,9 @@ public class WatchedFilesApplicationRunListener implements SpringApplicationRunL
         }
 
         // merge them in
-        System.getProperties().putAll(propertySource.getSource());
+	      propertySource.getSource().entrySet().stream().forEach(prop -> {
+		      System.setProperty(prop.getKey(), prop.getValue().toString());
+	      });
 
         requiresReloading = true;
 
