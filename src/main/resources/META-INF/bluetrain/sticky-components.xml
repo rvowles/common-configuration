@@ -16,6 +16,7 @@
 
   <bean class="com.bluetrainsoftware.common.config.MapCoercion"/>
   <bean class="net.stickycode.configured.ConfiguredConfigurationListener"/>
+  <!--<bean class="com.bluetrainsoftware.common.config.ConcurrentConfigurationListener"/>-->
   <bean class="net.stickycode.configured.ConfigurationSystem"/>
   <bean class="com.bluetrainsoftware.common.config.SystemPropertiesConfigurationSource"/>
   <bean class="com.bluetrainsoftware.common.config.ConfigKeyPostProcessor"/>

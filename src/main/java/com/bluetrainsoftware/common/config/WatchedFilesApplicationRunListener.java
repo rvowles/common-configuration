@@ -122,11 +122,15 @@ public class WatchedFilesApplicationRunListener implements SpringApplicationRunL
     }
   }
 
-  @Override
+  // 1.3 and 1.4
   public void started() {
   }
 
-  @Override
+	// 1.5
+	public void starting() {
+	}
+
+	@Override
   public void environmentPrepared(ConfigurableEnvironment configurableEnvironment) {
     loadWatchedFiles();
   }
