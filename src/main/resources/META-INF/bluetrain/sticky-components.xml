@@ -14,6 +14,7 @@
     <context:include-filter type="annotation" expression="net.stickycode.stereotype.StickyComponent"/>
   </context:component-scan>
 
+	<bean class="net.stickycode.bootstrap.spring4.SpringComponentContainer"/>
   <bean class="com.bluetrainsoftware.common.config.MapCoercion"/>
   <bean class="net.stickycode.configured.ConfiguredConfigurationListener"/>
   <!--<bean class="com.bluetrainsoftware.common.config.ConcurrentConfigurationListener"/>-->

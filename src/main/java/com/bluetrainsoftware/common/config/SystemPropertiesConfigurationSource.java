@@ -7,6 +7,8 @@ import net.stickycode.configuration.ResolvedConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.stream.Collectors;
+
 public class SystemPropertiesConfigurationSource implements ConfigurationSource {
 	private static final Logger log = LoggerFactory.getLogger(SystemPropertiesConfigurationSource.class);
 
@@ -16,7 +18,7 @@ public class SystemPropertiesConfigurationSource implements ConfigurationSource 
 
   @Override
 	public void apply(net.stickycode.configuration.ConfigurationKey configurationKey, ResolvedConfiguration resolvedConfiguration) {
-		final String key = configurationKey.join(".");
+		final String key = configurationKey.join(".").get(0);
 
 		final String value = System.getProperty(key);
 

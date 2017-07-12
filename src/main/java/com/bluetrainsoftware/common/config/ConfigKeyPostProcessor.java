@@ -5,6 +5,9 @@ import net.stickycode.configured.ForMethodOnlyBeansDummyAttribute;
 import net.stickycode.metadata.MetadataResolverRegistry;
 import net.stickycode.reflector.Reflector;
 import net.stickycode.stereotype.Configured;
+import net.stickycode.stereotype.configured.CompleteConfigured;
+import net.stickycode.stereotype.configured.PostConfigured;
+import net.stickycode.stereotype.configured.PreConfigured;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessorAdapter;
 
@@ -36,7 +39,13 @@ public class ConfigKeyPostProcessor extends InstantiationAwareBeanPostProcessorA
 		//noinspection unchecked
 		if (metdataResolverRegistry
 			.does(type)
-			.haveAnyFieldsMetaAnnotatedWith(ConfigKey.class, Configured.class))
+			.haveAnyFieldsMetaAnnotatedWith(ConfigKey.class))
+			return true;
+
+		//noinspection unchecked
+		if (metdataResolverRegistry
+			.does(type)
+			.haveAnyMethodsMetaAnnotatedWith(PreConfigured.class, PostConfigured.class, CompleteConfigured.class))
 			return true;
 
 		return false;

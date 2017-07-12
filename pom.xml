@@ -13,7 +13,7 @@
 
 	<name>stickycode-extended-config</name>
 
-	<version>1.4-SNAPSHOT</version>
+	<version>2.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<description>
@@ -22,27 +22,29 @@
 	
 	<scm>
 		<url>https://github.com/rvowles/common-configuration</url>
-		<connection>scm:git:https://github.com/rvowles/common-configuration.git</connection>
-		<developerConnection>scm:git:git@github.com:rvowles/common-configuration.git</developerConnection>
+		<connection>scm:git:https://github.com/rvowles/stickycode-extended-config.git</connection>
+		<developerConnection>scm:git:git@github.com:rvowles/stickycode-extended-config.git</developerConnection>
 	  <tag>HEAD</tag>
   </scm>
 
 	<properties>
 		<slf4j.version>1.7.21</slf4j.version>
-		<spring.version>4.2.6.RELEASE</spring.version>
+		<spring.version>4.2.9.RELEASE</spring.version>
 		<asciidoclet.version>1.5.4</asciidoclet.version>
+		<log4j.version>2.8.2</log4j.version>
+		<lmax.disruptor>3.3.6</lmax.disruptor>
 	</properties>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>net.stickycode.configured</groupId>
-			<artifactId>sticky-configured-spring3</artifactId>
-			<version>5.6</version>
+			<artifactId>sticky-configured-spring4</artifactId>
+			<version>1.4-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<groupId>net.stickycode.composite</groupId>
-					<artifactId>sticky-composite-spring3</artifactId>
+					<artifactId>sticky-composite-spring4</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
@@ -58,7 +60,7 @@
 		<dependency>
 			<groupId>net.stickycode.configuration</groupId>
 			<artifactId>sticky-configuration</artifactId>
-			<version>1.5</version>
+			<version>2.4</version>
 			<exclusions>
 				<exclusion>
 					<groupId>net.stickycode.composite</groupId>
@@ -167,13 +169,71 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.24</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.7.21</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!--
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>[${log4j.version}]</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>[${log4j.version}]</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>[${log4j.version}]</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-1.2-api</artifactId>
+			<version>[${log4j.version}]</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-jul</artifactId>
+			<version>[${log4j.version}]</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<version>[${lmax.disruptor}]</version>
+			<scope>test</scope>
+		</dependency>
+		-->
+
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert-core</artifactId>
+			<version>[2.0M10]</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
+				<version>3.6.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>

@@ -15,6 +15,10 @@ import net.stickycode.reflector.Fields;
 import net.stickycode.stereotype.Configured;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ConfigKeyProcessor extends AnnotatedFieldProcessor {
 
@@ -88,7 +92,7 @@ public class ConfigKeyProcessor extends AnnotatedFieldProcessor {
 
 			@Override
 			public String toString() {
-				return join(".");
+				return join(".").stream().collect(Collectors.joining(","));
 			}
 
 			@Override
@@ -107,22 +111,22 @@ public class ConfigKeyProcessor extends AnnotatedFieldProcessor {
 			}
 
 			@Override
-			public String join(String delimeter) {
+			public List<String> join(String delimeter) {
 				ConfigKey key = field.getAnnotation(ConfigKey.class);
 
 				if (key != null) {
 					if (key.value() != null && key.value().length() > 0) {
-						return key.value();
+						return Collections.singletonList(key.value());
 					} else if (target != null) {
-						return getSimpleName(delimeter);
+						return Collections.singletonList(getSimpleName(delimeter));
 					}
 				}
 
 				Configured configured = field.getAnnotation(Configured.class);
 				if (configured != null)
-					return getSimpleName(delimeter);
+					return Collections.singletonList(getSimpleName(delimeter));
 
-				return null;
+				return new ArrayList<>();
 			}
 
 			private String getSimpleName(String delimeter) {

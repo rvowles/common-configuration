@@ -8,7 +8,8 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
   ">
-  <import resource="classpath*:/META-INF/uoa/spring-*.xml"/>
+  <import resource="classpath*:/META-INF/bluetrain/sticky-components.xml"/>
 
-  <bean class="nz.ac.auckland.common.config.SampleConfiguredClass"/>
+  <bean class="com.bluetrainsoftware.common.config.SampleConfiguredClass"/>
+  <bean class="com.bluetrainsoftware.common.config.OrchestratedConfigured"/>
 </beans>
