@@ -31,16 +31,12 @@ import java.util.stream.Collectors;
  *
  * @author Richard Vowles - https://plus.google.com/+RichardVowles
  */
-public class WatchedFilesApplicationRunListener implements SpringApplicationRunListener {
+public class WatchedFilesApplicationRunListener extends BaseConfigurationFileWatcher implements SpringApplicationRunListener {
   private static final Logger log = LoggerFactory.getLogger(WatchedFilesApplicationRunListener.class);
 
   protected ConfigurationSystem system;
-  protected Set<File> watchedFiles = new HashSet<>();
-  protected Map<File, Long> lastModified = new HashMap<>();
-  protected int watchTimeout = 15; // seconds
   protected YamlPropertySourceLoader yamlPropertySourceLoader = new YamlPropertySourceLoader();
   protected PropertiesPropertySourceLoader propertiesPropertySourceLoader = new PropertiesPropertySourceLoader();
-  protected boolean requiresReloading = false;
 
   public WatchedFilesApplicationRunListener(SpringApplication application, String []args) {
     determineWatchedFileListFromCommandLineArguments(args);
@@ -60,58 +56,12 @@ public class WatchedFilesApplicationRunListener implements SpringApplicationRunL
     });
   }
 
-  protected void loadWatchedFiles() {
-    requiresReloading = false;
-
-    Set<File> newWatchedFiles = watchedFiles.stream().map(propertyFile -> {
-      File newFile = new File(propertyFile.getAbsolutePath());
-
-      Long previousLastModifiedTime = lastModified.get(propertyFile);
-
-      if (newFile.exists() && (previousLastModifiedTime == null || newFile.lastModified() != previousLastModifiedTime)) {
-        log.info("Loading configuration `{}` into system properties", newFile.getAbsolutePath());
-
-        MapPropertySource propertySource = loadPropertyFile(newFile.getName().endsWith(".yml")
-          ? yamlPropertySourceLoader : propertiesPropertySourceLoader, newFile);
-
-        lastModified.remove(propertyFile);
-
-        if (propertySource == null) {
-          return null;
-        } else {
-          lastModified.put(newFile, newFile.lastModified());
-        }
-
-        // merge them in
-	      propertySource.getSource().entrySet().stream().forEach(prop -> {
-		      System.setProperty(prop.getKey(), prop.getValue().toString());
-	      });
-
-        requiresReloading = true;
-
-        return newFile;
-      }
-
-      return propertyFile;
-    })
-      .filter(pf -> pf != null) // clear out failed ones
-      .collect(Collectors.toSet());
-
-    watchedFiles = newWatchedFiles;
-
-    checkForTimerOverride();
+  @Override
+  protected MapPropertySource loadPropertyFile(File newFile) {
+    return loadPropertyFile(isYaml(newFile)
+      ? yamlPropertySourceLoader : propertiesPropertySourceLoader, newFile);
   }
 
-  protected void checkForTimerOverride() {
-    String timeout = System.getProperty("sticky.timeout");
-    if (timeout != null) {
-      try {
-        watchTimeout = Integer.parseInt(timeout);
-      } catch (Exception ex) {
-        // ignore failures
-      }
-    }
-  }
 
   private MapPropertySource loadPropertyFile(PropertySourceLoader loader, File newFile) {
     try {
@@ -147,22 +97,6 @@ public class WatchedFilesApplicationRunListener implements SpringApplicationRunL
   public void finished(ConfigurableApplicationContext configurableApplicationContext, Throwable throwable) {
     system = configurableApplicationContext.getBean(ConfigurationSystem.class);
 
-    if (system != null && watchedFiles.size() > 0 && watchTimeout > 0) {
-      new Thread(() -> {
-        while (true) {
-          try {
-            Thread.sleep(watchTimeout * 1000);
-          } catch (InterruptedException e) {
-            return;
-          }
-
-          loadWatchedFiles();
-
-          if (requiresReloading) {
-            system.start();
-          }
-        }
-      }).start();
-    }
+    startWatching();
   }
 }

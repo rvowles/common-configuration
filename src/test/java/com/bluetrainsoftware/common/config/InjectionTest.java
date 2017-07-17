@@ -56,6 +56,14 @@ public class InjectionTest {
     assertThat(sample.monkey).isNotNull();
     assertThat(sample.noDefaultValue).isEqualTo(17);
     assertThat(sample.reallyNoDefaultValue).isEqualTo(18);
+    assertThat(sample.configs).isEqualTo(Arrays.asList("preconfigured", "postconfigured"));
+
+    PreStartRepository preStartRepository = ctx.getBean(PreStartRepository.class);
+    preStartRepository.start();
+
+    assertThat(sample.configs).isEqualTo(Arrays.asList("preconfigured", "postconfigured", "cc"));
+    preStartRepository.start();
+
     assertThat(sample.configs).isEqualTo(Arrays.asList("preconfigured", "postconfigured", "cc"));
 //    assertThat(sample.simpleValue).isEqualTo("simpleValue");
 //    assertThat(sample.simpleMap.size()).isEqualTo(3);

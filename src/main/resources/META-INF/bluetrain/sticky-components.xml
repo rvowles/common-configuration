@@ -22,4 +22,5 @@
   <bean class="com.bluetrainsoftware.common.config.SystemPropertiesConfigurationSource"/>
   <bean class="com.bluetrainsoftware.common.config.ConfigKeyPostProcessor"/>
   <bean class="com.bluetrainsoftware.common.config.ConfigurationRefresher"/> <!-- automatically start the configuration -->
+	<bean class="com.bluetrainsoftware.common.config.PreStartRefresher"/>
 </beans>

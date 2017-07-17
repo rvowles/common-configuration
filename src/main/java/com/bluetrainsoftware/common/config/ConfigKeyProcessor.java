@@ -25,7 +25,7 @@ public class ConfigKeyProcessor extends AnnotatedFieldProcessor {
 	private final ConfigurationRepository configuration;
 
 	public ConfigKeyProcessor(ConfigurationRepository configuration) {
-		super(ConfigKey.class, Configured.class);
+		super(ConfigKey.class);
 
 		this.configuration = configuration;
 	}

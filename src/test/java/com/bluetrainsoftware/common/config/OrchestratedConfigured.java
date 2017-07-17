@@ -1,7 +1,5 @@
 package com.bluetrainsoftware.common.config;
 
-import net.stickycode.stereotype.configured.CompleteConfigured;
-
 import javax.inject.Inject;
 
 /**
@@ -19,7 +17,7 @@ public class OrchestratedConfigured {
 //		config += "post";
 //	}
 
-	@CompleteConfigured
+	@PreStart
 	public void blah() {
 		scc.configs.add("cc");
 	}

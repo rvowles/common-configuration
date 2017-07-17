@@ -31,6 +31,7 @@ import java.lang.annotation.Target;
   ConfiguredBeanProcessor.class, ConfiguredMetadata.class, InlineConfigurationRepository.class, Coercions.class,
   ReflectiveMetadataResolverRegistry.class, StickySystemStartup.class, StickyConfiguration.class,
   SpringComponentContainer.class, MapCoercion.class, ConfiguredConfigurationListener.class, ConfigurationSystem.class,
-  SystemPropertiesConfigurationSource.class, ConfigKeyPostProcessor.class, ConfigurationRefresher.class})
+  SystemPropertiesConfigurationSource.class, ConfigKeyPostProcessor.class, ConfigurationRefresher.class,
+  PreStartRefresher.class})
 public @interface EnableStickyConfiguration {
 }
