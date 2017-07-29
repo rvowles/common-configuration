@@ -101,6 +101,10 @@ public class BatheTimeWatcher extends BaseConfigurationFileWatcher implements Ba
     }
 
     System.getProperties().putAll(loadingProperties);
+
+    if (watchedFiles.size() > 0) {
+      loadWatchedFiles();
+    }
   }
 
   /*
