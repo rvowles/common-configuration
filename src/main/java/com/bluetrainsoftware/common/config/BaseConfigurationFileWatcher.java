@@ -28,7 +28,7 @@ public class BaseConfigurationFileWatcher {
   public ConfigurationSystem system;
 
   public void startWatching() {
-    if (system != null && watchedFiles.size() > 0 && watchTimeout > 0) {
+    if (watchedFiles.size() > 0 && watchTimeout > 0) {
       new Thread(() -> {
         while (true) {
           try {
@@ -39,8 +39,11 @@ public class BaseConfigurationFileWatcher {
 
           loadWatchedFiles();
 
-          if (requiresReloading) {
+          if (system != null && requiresReloading) {
             system.start();
+          }
+          if(requiresReloading && "true".equals(System.getProperty("dieOnConfigChange"))){
+            System.exit(0);
           }
         }
       }).start();
